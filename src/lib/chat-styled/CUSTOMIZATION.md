@@ -67,13 +67,15 @@ Les snippets Svelte permettent de personnaliser complètement le rendu de certai
 
 ### Avatars
 
-Vous pouvez personnaliser les avatars en passant des snippets au composant :
+Vous pouvez personnaliser les avatars en passant des snippets au composant. **Les snippets remplacent complètement la div parente**, vous donnant un contrôle total sur le style et la structure.
 
 | Snippet | Description | Usage |
 |---------|-------------|-------|
-| `botAvatar` | Avatar de l'IA dans les messages | Snippet sans paramètres |
-| `userAvatar` | Avatar de l'utilisateur dans les messages | Snippet sans paramètres |
-| `headerAvatar` | Avatar dans le header du chat | Snippet sans paramètres |
+| `botAvatar` | Avatar de l'IA dans les messages | Snippet sans paramètres - remplace la div `.message-avatar.bot-avatar` |
+| `userAvatar` | Avatar de l'utilisateur dans les messages | Snippet sans paramètres - remplace la div `.message-avatar.user-avatar` |
+| `headerAvatar` | Avatar dans le header du chat | Snippet sans paramètres - remplace la div `.ai-avatar` |
+
+**Important** : Quand vous passez un snippet d'avatar, vous devez créer votre propre élément conteneur avec les styles appropriés. Les snippets ont un contrôle total sur le rendu.
 
 ---
 
@@ -138,18 +140,26 @@ Vous pouvez personnaliser les avatars en passant des snippets au composant :
 
 <AIChat {options}>
   {#snippet botAvatar()}
-    <img src="/bot-avatar.png" alt="Bot" style="width: 100%; height: 100%; border-radius: inherit;" />
+    <div class="message-avatar bot-avatar">
+      <img src="/bot-avatar.png" alt="Bot" style="width: 100%; height: 100%; border-radius: inherit; object-fit: cover;" />
+    </div>
   {/snippet}
   
   {#snippet userAvatar()}
-    <img src="/user-avatar.png" alt="User" style="width: 100%; height: 100%; border-radius: inherit;" />
+    <div class="message-avatar user-avatar">
+      <img src="/user-avatar.png" alt="User" style="width: 100%; height: 100%; border-radius: inherit; object-fit: cover;" />
+    </div>
   {/snippet}
   
   {#snippet headerAvatar()}
-    <img src="/logo.png" alt="Logo" style="width: 24px; height: 24px;" />
+    <div class="ai-avatar">
+      <img src="/logo.png" alt="Logo" style="width: 24px; height: 24px;" />
+    </div>
   {/snippet}
 </AIChat>
 ```
+
+**Note** : Les snippets remplacent complètement la div parente. Vous devez donc créer votre propre conteneur avec les classes CSS appropriées (`.message-avatar`, `.ai-avatar`, etc.) si vous voulez conserver les styles par défaut.
 
 ### Exemple 5 : Avatar avec composant personnalisé
 
@@ -166,13 +176,64 @@ Vous pouvez personnaliser les avatars en passant des snippets au composant :
 
 <AIChat {options}>
   {#snippet botAvatar()}
-    <CustomBotIcon size={16} />
+    <div class="message-avatar bot-avatar">
+      <CustomBotIcon size={16} />
+    </div>
   {/snippet}
   
   {#snippet userAvatar()}
-    <CustomUserIcon size={16} />
+    <div class="message-avatar user-avatar">
+      <CustomUserIcon size={16} />
+    </div>
   {/snippet}
 </AIChat>
+```
+
+### Exemple 5b : Avatar avec style personnalisé complet
+
+```svelte
+<AIChat {options}>
+  {#snippet botAvatar()}
+    <div class="custom-bot-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+      </svg>
+    </div>
+  {/snippet}
+  
+  {#snippet userAvatar()}
+    <div class="custom-user-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    </div>
+  {/snippet}
+</AIChat>
+
+<style>
+  .custom-bot-avatar,
+  .custom-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .custom-bot-avatar {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  }
+  
+  .custom-user-avatar {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
+  }
+</style>
 ```
 
 ### Exemple 6 : Combinaison complète
@@ -208,15 +269,19 @@ Vous pouvez personnaliser les avatars en passant des snippets au composant :
   --ai-font-family="'Poppins', sans-serif"
 >
   {#snippet botAvatar()}
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-    </svg>
+    <div class="message-avatar bot-avatar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+      </svg>
+    </div>
   {/snippet}
   
   {#snippet userAvatar()}
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-    </svg>
+    <div class="message-avatar user-avatar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    </div>
   {/snippet}
 </AIChat>
 ```

@@ -49,17 +49,17 @@
 					<header class="ai-chat-header">
 						<div class="header-content">
 							<div class="header-left">
-								<div class="ai-avatar">
-									{#if headerAvatar}
-										{@render headerAvatar()}
-									{:else}
+								{#if headerAvatar}
+									{@render headerAvatar()}
+								{:else}
+									<div class="ai-avatar">
 										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 										</svg>
-									{/if}
-								</div>
+									</div>
+								{/if}
 								<div class="header-text">
 									<h1>{headerTitle}</h1>
 									<p>{headerSubtitle}</p>
@@ -99,18 +99,18 @@
 							{#snippet renderMessage(message)}
 								<div class="message-wrapper {message.sender}">
 									{#if message.sender === 'bot'}
-										<div class="message-avatar bot-avatar">
-											{#if botAvatar}
-												{@render botAvatar()}
-											{:else}
+										{#if botAvatar}
+											{@render botAvatar()}
+										{:else}
+											<div class="message-avatar bot-avatar">
 												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
 													<path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 													<circle cx="9" cy="9" r="1" fill="currentColor"/>
 													<circle cx="15" cy="9" r="1" fill="currentColor"/>
 												</svg>
-											{/if}
-										</div>
+											</div>
+										{/if}
 									{/if}
 									
 									<div class="message-content">
@@ -133,34 +133,34 @@
 									</div>
 
 									{#if message.sender === 'user'}
-										<div class="message-avatar user-avatar">
-											{#if userAvatar}
-												{@render userAvatar()}
-											{:else}
+										{#if userAvatar}
+											{@render userAvatar()}
+										{:else}
+											<div class="message-avatar user-avatar">
 												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 													<circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 												</svg>
-											{/if}
-										</div>
+											</div>
+										{/if}
 									{/if}
 								</div>
 							{/snippet}
 
 							{#snippet renderTyping()}
 								<div class="message-wrapper bot">
-									<div class="message-avatar bot-avatar">
-										{#if botAvatar}
-											{@render botAvatar()}
-										{:else}
+									{#if botAvatar}
+										{@render botAvatar()}
+									{:else}
+										<div class="message-avatar bot-avatar">
 											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 												<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
 												<path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 												<circle cx="9" cy="9" r="1" fill="currentColor"/>
 												<circle cx="15" cy="9" r="1" fill="currentColor"/>
 											</svg>
-										{/if}
-									</div>
+										</div>
+									{/if}
 									<div class="message-content">
 										<div class="message-bubble bot typing-indicator">
 											<div class="typing-dots">
