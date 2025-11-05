@@ -160,7 +160,28 @@
 							options={chatOptions} 
 							theme="light"
 							showClearButton={true}
-						/>
+							--ai-primary="#10b981"
+							--ai-primary-dark="#059669"
+							--ai-radius-md="1rem"
+						>
+							{#snippet botAvatar()}
+								<div style="width: 16px; height: 16px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;">
+									🤖
+								</div>
+							{/snippet}
+							
+							{#snippet userAvatar()}
+								<div style="width: 16px; height: 16px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;">
+									👤
+								</div>
+							{/snippet}
+							
+							{#snippet headerAvatar()}
+								<div style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px;">
+									🤖
+								</div>
+							{/snippet}
+						</AIChat>
 					{/key}
 				</div>
 				<div class="code-snippet">

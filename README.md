@@ -134,6 +134,21 @@ interface AIChatProps {
   showClearButton?: boolean;      // Show clear session button (default: false)
   inputPlaceholder?: string;      // Input field placeholder
   clearButtonText?: string;       // Clear button label
+  
+  // Custom snippets for avatars
+  botAvatar?: Snippet;            // Custom bot avatar component
+  userAvatar?: Snippet;           // Custom user avatar component
+  headerAvatar?: Snippet;         // Custom header avatar component
+  
+  // CSS custom properties
+  primaryColor?: string;          // Main brand color
+  primaryDarkColor?: string;      // Darker shade of primary
+  secondaryColor?: string;        // Secondary color
+  bgPrimary?: string;             // Primary background color
+  bgSecondary?: string;           // Secondary background color
+  textPrimary?: string;           // Primary text color
+  borderColor?: string;           // Border color
+  borderRadius?: string;          // Border radius for elements
 }
 ```
 

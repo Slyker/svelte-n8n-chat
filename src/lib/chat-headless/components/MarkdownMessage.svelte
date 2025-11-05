@@ -17,7 +17,12 @@
 	// Render markdown and sanitize HTML
 	const html = $derived(() => {
 		const rendered = marked.parse(content);
-		return DOMPurify.sanitize(rendered);
+		// Ensure rendered is a string before sanitizing
+		if (typeof rendered === 'string') {
+			return DOMPurify.sanitize(rendered);
+		}
+		// If it's a promise (shouldn't happen with sync parse), return empty
+		return '';
 	});
 </script>
 

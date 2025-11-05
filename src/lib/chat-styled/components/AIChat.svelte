@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { HeadlessChat, HeadlessLayout, HeadlessMessagesList, HeadlessInput, MarkdownMessage } from '../../chat-headless/index.js';
 	import type { ChatOptions, ChatMessage, ChatStore } from '../../chat-headless/index.js';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		options: ChatOptions;
@@ -10,6 +11,10 @@
 		showClearButton?: boolean;
 		inputPlaceholder?: string;
 		clearButtonText?: string;
+		// Custom snippets for avatars
+		botAvatar?: Snippet;
+		userAvatar?: Snippet;
+		headerAvatar?: Snippet;
 	}
 
 	let { 
@@ -19,7 +24,10 @@
 		theme = 'light',
 		showClearButton = false,
 		inputPlaceholder,
-		clearButtonText
+		clearButtonText,
+		botAvatar,
+		userAvatar,
+		headerAvatar,
 	}: Props = $props();
 
 	// Get i18n messages from options
@@ -42,11 +50,15 @@
 						<div class="header-content">
 							<div class="header-left">
 								<div class="ai-avatar">
-									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-										<path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-										<path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
+									{#if headerAvatar}
+										{@render headerAvatar()}
+									{:else}
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											<path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											<path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+									{/if}
 								</div>
 								<div class="header-text">
 									<h1>{headerTitle}</h1>
@@ -88,18 +100,22 @@
 								<div class="message-wrapper {message.sender}">
 									{#if message.sender === 'bot'}
 										<div class="message-avatar bot-avatar">
-											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-												<path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-												<circle cx="9" cy="9" r="1" fill="currentColor"/>
-												<circle cx="15" cy="9" r="1" fill="currentColor"/>
-											</svg>
+											{#if botAvatar}
+												{@render botAvatar()}
+											{:else}
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+													<path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+													<circle cx="9" cy="9" r="1" fill="currentColor"/>
+													<circle cx="15" cy="9" r="1" fill="currentColor"/>
+												</svg>
+											{/if}
 										</div>
 									{/if}
 									
 									<div class="message-content">
 										<div class="message-bubble {message.sender}">
-											<MarkdownMessage content={message.text} />
+											<MarkdownMessage content={message.text ?? ''} />
 											{#if message.files && message.files.length > 0}
 												<div class="message-files">
 													{#each message.files as file}
@@ -118,10 +134,14 @@
 
 									{#if message.sender === 'user'}
 										<div class="message-avatar user-avatar">
-											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												<circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-											</svg>
+											{#if userAvatar}
+												{@render userAvatar()}
+											{:else}
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													<circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+												</svg>
+											{/if}
 										</div>
 									{/if}
 								</div>
@@ -130,12 +150,16 @@
 							{#snippet renderTyping()}
 								<div class="message-wrapper bot">
 									<div class="message-avatar bot-avatar">
-										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-											<path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-											<circle cx="9" cy="9" r="1" fill="currentColor"/>
-											<circle cx="15" cy="9" r="1" fill="currentColor"/>
-										</svg>
+										{#if botAvatar}
+											{@render botAvatar()}
+										{:else}
+											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+												<path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+												<circle cx="9" cy="9" r="1" fill="currentColor"/>
+												<circle cx="15" cy="9" r="1" fill="currentColor"/>
+											</svg>
+										{/if}
 									</div>
 									<div class="message-content">
 										<div class="message-bubble bot typing-indicator">
@@ -200,6 +224,7 @@
 
 <style>
 	.ai-chat-container {
+		/* Default color variables */
 		--ai-primary: #667eea;
 		--ai-primary-dark: #5568d3;
 		--ai-secondary: #764ba2;
@@ -213,13 +238,31 @@
 		--ai-shadow: rgba(0, 0, 0, 0.1);
 		--ai-shadow-lg: rgba(0, 0, 0, 0.15);
 		
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+		/* Default spacing & layout variables */
+		--ai-radius-sm: 6px;
+		--ai-radius-md: 12px;
+		--ai-radius-lg: 16px;
+		--ai-header-padding: 20px 24px;
+		--ai-messages-padding: 24px;
+		--ai-footer-padding: 16px 24px;
+		--ai-message-gap: 20px;
+		--ai-avatar-size: 32px;
+		--ai-avatar-radius: 8px;
+		
+		/* Default typography variables */
+		--ai-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+		--ai-font-size: 15px;
+		--ai-font-size-sm: 13px;
+		--ai-font-size-lg: 18px;
+		--ai-line-height: 1.5;
+		
+		font-family: var(--ai-font-family);
 		width: 100%;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		background: var(--ai-bg-primary);
-		border-radius: 12px;
+		border-radius: var(--ai-radius-md);
 		overflow: hidden;
 		box-shadow: 0 4px 6px -1px var(--ai-shadow-lg), 0 2px 4px -1px var(--ai-shadow);
 	}
@@ -261,7 +304,7 @@
 	/* Header */
 	.ai-chat-header {
 		background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-secondary) 100%);
-		padding: 20px 24px;
+		padding: var(--ai-header-padding);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
@@ -292,14 +335,14 @@
 
 	.header-text h1 {
 		margin: 0;
-		font-size: 18px;
+		font-size: var(--ai-font-size-lg);
 		font-weight: 600;
 		color: white;
 	}
 
 	.header-text p {
 		margin: 4px 0 0;
-		font-size: 13px;
+		font-size: var(--ai-font-size-sm);
 		color: rgba(255, 255, 255, 0.8);
 	}
 
@@ -312,7 +355,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.25);
 		color: white;
 		border-radius: 8px;
-		font-size: 14px;
+		font-size: var(--ai-font-size-sm);
 		font-weight: 500;
 		cursor: pointer;
 		transition: all 0.2s ease;
@@ -337,7 +380,7 @@
 
 	/* Messages */
 	.ai-chat-messages {
-		padding: 24px;
+		padding: var(--ai-messages-padding);
 	}
 
 	/* Loading Session State */
@@ -367,7 +410,7 @@
 
 	.loading-session p {
 		margin: 0;
-		font-size: 14px;
+		font-size: var(--ai-font-size-sm);
 		font-weight: 500;
 	}
 
@@ -379,7 +422,7 @@
 	.message-wrapper {
 		display: flex;
 		gap: 12px;
-		margin-bottom: 20px;
+		margin-bottom: var(--ai-message-gap);
 		align-items: flex-start;
 	}
 
@@ -388,9 +431,9 @@
 	}
 
 	.message-avatar {
-		width: 32px;
-		height: 32px;
-		border-radius: 8px;
+		width: var(--ai-avatar-size);
+		height: var(--ai-avatar-size);
+		border-radius: var(--ai-avatar-radius);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -425,9 +468,9 @@
 
 	.message-bubble {
 		padding: 12px 16px;
-		border-radius: 12px;
-		font-size: 15px;
-		line-height: 1.5;
+		border-radius: var(--ai-radius-md);
+		font-size: var(--ai-font-size);
+		line-height: var(--ai-line-height);
 	}
 
 	.message-bubble.bot {
@@ -462,8 +505,8 @@
 		gap: 6px;
 		padding: 6px 10px;
 		background: rgba(0, 0, 0, 0.1);
-		border-radius: 6px;
-		font-size: 13px;
+		border-radius: var(--ai-radius-sm);
+		font-size: var(--ai-font-size-sm);
 		max-width: fit-content;
 	}
 
@@ -518,7 +561,7 @@
 		width: 64px;
 		height: 64px;
 		background: var(--ai-bg-tertiary);
-		border-radius: 16px;
+		border-radius: var(--ai-radius-lg);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -528,20 +571,20 @@
 
 	.empty-state h3 {
 		margin: 0 0 8px;
-		font-size: 18px;
+		font-size: var(--ai-font-size-lg);
 		font-weight: 600;
 		color: var(--ai-text-primary);
 	}
 
 	.empty-state p {
 		margin: 0;
-		font-size: 14px;
+		font-size: var(--ai-font-size-sm);
 		max-width: 300px;
 	}
 
 	/* Footer */
 	.ai-chat-footer {
-		padding: 16px 24px;
+		padding: var(--ai-footer-padding);
 		background: var(--ai-bg-primary);
 		border-top: 1px solid var(--ai-border);
 		display: flex;
@@ -559,7 +602,7 @@
 		padding: 12px 16px;
 		border: 1px solid var(--ai-border);
 		border-radius: 10px;
-		font-size: 15px;
+		font-size: var(--ai-font-size);
 		font-family: inherit;
 		color: var(--ai-text-primary);
 		background: var(--ai-bg-secondary);
