@@ -234,7 +234,7 @@ Pour désactiver cette fonctionnalité (mode session temporaire) :
 </AIChat>
 ```
 
-### Exemple 4 : Intégration i18n
+### Exemple 4 : Intégration i18n complète
 
 ```svelte
 <script>
@@ -251,12 +251,22 @@ Pour désactiver cette fonctionnalité (mode session temporaire) :
         subtitle: 'Powered by n8n',
         inputPlaceholder: 'Type your message...',
         clearConversation: 'Clear Chat',
+        loadingSession: 'Loading session...',
+        emptyStateTitle: 'Start a conversation',
+        emptyStateSubtitle: 'Send a message to begin chatting with the AI assistant',
+        sendButtonAriaLabel: 'Send message',
+        clearButtonAriaLabel: 'Clear conversation',
       },
       fr: {
         title: 'Assistant IA',
         subtitle: 'Propulsé par n8n',
         inputPlaceholder: 'Tapez votre message...',
         clearConversation: 'Effacer',
+        loadingSession: 'Chargement de la session...',
+        emptyStateTitle: 'Démarrer une conversation',
+        emptyStateSubtitle: 'Envoyez un message pour commencer à discuter',
+        sendButtonAriaLabel: 'Envoyer le message',
+        clearButtonAriaLabel: 'Effacer la conversation',
       },
     },
   };
@@ -268,9 +278,23 @@ Pour désactiver cette fonctionnalité (mode session temporaire) :
 </div>
 
 {#key currentLang}
-  <AIChat {options} />
+  <AIChat {options} showClearButton={true} />
 {/key}
 ```
+
+**Clés i18n disponibles :**
+
+| Clé | Description | Défaut (EN) |
+|-----|-------------|-------------|
+| `title` | Titre du header | `'AI Assistant'` |
+| `subtitle` | Sous-titre du header | `'Powered by n8n'` |
+| `inputPlaceholder` | Placeholder de l'input | `'Type your message...'` |
+| `clearConversation` | Texte du bouton clear | `'Clear'` |
+| `loadingSession` | Texte lors du chargement de session | `'Loading session...'` |
+| `emptyStateTitle` | Titre de l'état vide | `'Start a conversation'` |
+| `emptyStateSubtitle` | Sous-titre de l'état vide | `'Send a message to begin chatting with the AI assistant'` |
+| `sendButtonAriaLabel` | Label aria du bouton envoyer | `'Send message'` |
+| `clearButtonAriaLabel` | Label aria du bouton clear | `'Clear conversation'` |
 
 ### Exemple 5 : Configuration complète
 
@@ -345,8 +369,10 @@ Pour désactiver cette fonctionnalité (mode session temporaire) :
 
 ## 🎨 Guide de personnalisation avancée
 
-Pour une personnalisation plus avancée, consultez le fichier [CUSTOMIZATION.md](./CUSTOMIZATION.md) qui contient :
+Pour une personnalisation plus avancée, consultez les guides :
 
+- **[CUSTOMIZATION.md](./CUSTOMIZATION.md)** - Variables CSS, snippets, exemples avancés
+- **[I18N.md](./I18N.md)** - Internationalisation complète avec exemples multilingues (EN, FR, ES, DE, IT, JA, ZH)
 - Liste complète de toutes les variables CSS
 - Exemples de thèmes personnalisés
 - Guide d'utilisation des snippets

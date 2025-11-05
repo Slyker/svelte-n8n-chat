@@ -10,7 +10,7 @@ export interface ChatOptions {
 	loadPreviousSession?: boolean;
 	chatInputKey?: string;
 	chatSessionKey?: string;
-	defaultLanguage?: 'en';
+	defaultLanguage?: string;
 	initialMessages?: string[];
 	metadata?: Record<string, unknown>;
 	i18n?: Record<string, Record<string, string>>;

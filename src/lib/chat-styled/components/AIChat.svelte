@@ -48,6 +48,13 @@
 	const headerSubtitle = subtitle ?? i18nMessages.subtitle ?? 'Powered by n8n';
 	const placeholder = inputPlaceholder ?? i18nMessages.inputPlaceholder ?? 'Type your message...';
 	const clearText = clearButtonText ?? i18nMessages.clearConversation ?? 'Clear';
+	
+	// Additional i18n texts with fallbacks
+	const loadingSessionText = i18nMessages.loadingSession ?? 'Loading session...';
+	const emptyStateTitle = i18nMessages.emptyStateTitle ?? 'Start a conversation';
+	const emptyStateSubtitle = i18nMessages.emptyStateSubtitle ?? 'Send a message to begin chatting with the AI assistant';
+	const sendButtonAriaLabel = i18nMessages.sendButtonAriaLabel ?? 'Send message';
+	const clearButtonAriaLabel = i18nMessages.clearButtonAriaLabel ?? 'Clear conversation';
 </script>
 
 <div class="ai-chat-container" data-theme={theme}>
@@ -78,8 +85,8 @@
 								<button 
 									class="clear-button"
 									onclick={() => store.clearSession()}
-									aria-label="Clear conversation"
-									title="Clear conversation"
+									aria-label={clearButtonAriaLabel}
+									title={clearButtonAriaLabel}
 								>
 									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -101,7 +108,7 @@
 										<path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 									</svg>
 								</div>
-								<p>Loading session...</p>
+								<p>{loadingSessionText}</p>
 							</div>
 						{:else}
 							<HeadlessMessagesList>
@@ -189,8 +196,8 @@
 											<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 										</svg>
 									</div>
-									<h3>Start a conversation</h3>
-									<p>Send a message to begin chatting with the AI assistant</p>
+									<h3>{emptyStateTitle}</h3>
+									<p>{emptyStateSubtitle}</p>
 								</div>
 							{/snippet}
 						</HeadlessMessagesList>
@@ -216,7 +223,7 @@
 							{/snippet}
 
 							{#snippet renderSubmitButton({ disabled, onClick })}
-								<button {disabled} onclick={onClick} class="send-button" aria-label="Send message">
+								<button {disabled} onclick={onClick} class="send-button" aria-label={sendButtonAriaLabel}>
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 										<polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor"/>

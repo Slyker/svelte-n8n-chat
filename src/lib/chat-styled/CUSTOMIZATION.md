@@ -5,6 +5,7 @@ Le composant `AIChat` offre une personnalisation complète via des **variables C
 ## 📝 Table des matières
 
 - [Gestion automatique des sessions](#gestion-automatique-des-sessions)
+- [Internationalisation (i18n)](#internationalisation-i18n)
 - [Variables CSS (Style Props)](#variables-css-style-props)
   - [Couleurs](#couleurs)
   - [Espacement et Layout](#espacement-et-layout)
@@ -58,6 +59,69 @@ Lorsque l'utilisateur clique sur "Clear" :
 - **Expérience utilisateur fluide** : Les conversations persistent entre les visites
 - **Contrôle total** : Possibilité de désactiver via `enableSessionPersistence={false}`
 - **Respect de la vie privée** : Le bouton Clear permet de tout effacer facilement
+
+---
+
+## Internationalisation (i18n)
+
+Le composant `AIChat` supporte la traduction complète de **tous** les textes affichés.
+
+### 🌍 Clés i18n disponibles
+
+| Clé | Description | Défaut (EN) |
+|-----|-------------|-------------|
+| `title` | Titre du header | `'AI Assistant'` |
+| `subtitle` | Sous-titre du header | `'Powered by n8n'` |
+| `inputPlaceholder` | Placeholder de l'input | `'Type your message...'` |
+| `clearConversation` | Texte du bouton clear | `'Clear'` |
+| `loadingSession` | Texte lors du chargement | `'Loading session...'` |
+| `emptyStateTitle` | Titre de l'état vide | `'Start a conversation'` |
+| `emptyStateSubtitle` | Sous-titre de l'état vide | `'Send a message to begin chatting...'` |
+| `sendButtonAriaLabel` | Label ARIA du bouton envoyer | `'Send message'` |
+| `clearButtonAriaLabel` | Label ARIA du bouton clear | `'Clear conversation'` |
+
+### 📖 Exemple multilingue
+
+```svelte
+<script>
+  let currentLang = $state('fr');
+  
+  const options = {
+    webhookUrl: 'https://...',
+    defaultLanguage: currentLang,
+    i18n: {
+      en: {
+        title: 'AI Assistant',
+        subtitle: 'Powered by n8n',
+        inputPlaceholder: 'Type your message...',
+        clearConversation: 'Clear',
+        loadingSession: 'Loading session...',
+        emptyStateTitle: 'Start a conversation',
+        emptyStateSubtitle: 'Send a message to begin chatting',
+        sendButtonAriaLabel: 'Send message',
+        clearButtonAriaLabel: 'Clear conversation',
+      },
+      fr: {
+        title: 'Assistant IA',
+        subtitle: 'Propulsé par n8n',
+        inputPlaceholder: 'Tapez votre message...',
+        clearConversation: 'Effacer',
+        loadingSession: 'Chargement de la session...',
+        emptyStateTitle: 'Démarrer une conversation',
+        emptyStateSubtitle: 'Envoyez un message pour commencer',
+        sendButtonAriaLabel: 'Envoyer le message',
+        clearButtonAriaLabel: 'Effacer la conversation',
+      },
+    },
+  };
+</script>
+
+{#key currentLang}
+  <AIChat {options} showClearButton={true} />
+{/key}
+```
+
+**📚 Pour plus de langues et d'exemples, consultez [I18N.md](./I18N.md)**
 
 ---
 
