@@ -30,7 +30,11 @@
 		(async () => {
 			if (options.loadPreviousSession) {
 				await chatStore.loadPreviousSession();
+			} else {
+				// If not loading previous session, ensure isLoadingSession is false
+				chatStore.setLoadingSession(false);
 			}
+			
 			if (!options.showWelcomeScreen && !chatStore.currentSessionId) {
 				await chatStore.startNewSession();
 			}

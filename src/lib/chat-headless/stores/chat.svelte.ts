@@ -243,6 +243,13 @@ export function createChatStore(providedOptions: ChatOptions) {
 		}
 	}
 
+	/**
+	 * Manually set loading session state
+	 */
+	function setLoadingSession(value: boolean) {
+		isLoadingSession = value;
+	}
+
 	return {
 		// Reactive state - expose as getters to maintain reactivity
 		get messages() { return messages; },
@@ -258,6 +265,7 @@ export function createChatStore(providedOptions: ChatOptions) {
 		startNewSession,
 		clearSession,
 		sendMessage,
+		setLoadingSession,
 		closeWebSocket,
 	};
 }
