@@ -92,6 +92,27 @@ Vous pouvez personnaliser les avatars en passant des snippets :
 | `theme` | `'light' \| 'dark'` | `'light'` | Thème du chat |
 | `showClearButton` | `boolean` | `false` | Afficher le bouton de suppression |
 
+### Gestion des sessions
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `enableSessionPersistence` | `boolean` | `true` | Active la persistance automatique des sessions |
+
+**Note importante sur la gestion des sessions :**
+
+Le composant `AIChat` gère **automatiquement** la persistance des sessions par défaut. Cela signifie que :
+
+- ✅ Un ID de session unique est généré et sauvegardé dans le localStorage
+- ✅ Les messages sont automatiquement rechargés au retour de l'utilisateur
+- ✅ Le bouton "Clear" crée une nouvelle session et efface l'historique
+- ✅ Aucune configuration manuelle nécessaire
+
+Pour désactiver cette fonctionnalité (mode session temporaire) :
+
+```svelte
+<AIChat {options} enableSessionPersistence={false} />
+```
+
 ### Snippets
 
 | Prop | Type | Description |

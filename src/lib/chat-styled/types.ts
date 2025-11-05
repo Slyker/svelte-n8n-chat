@@ -56,6 +56,18 @@ export interface AIChatProps {
 	 */
 	clearButtonText?: string;
 
+	/**
+	 * Enable automatic session persistence
+	 * When enabled (default), the chat will:
+	 * - Automatically generate and save a session ID in localStorage
+	 * - Load previous messages when the user returns
+	 * - Create a new session when the clear button is clicked
+	 * 
+	 * Set to false for temporary sessions (no persistence)
+	 * @default true
+	 */
+	enableSessionPersistence?: boolean;
+
 	// Custom snippets for avatars
 
 	/**

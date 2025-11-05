@@ -11,6 +11,7 @@
 		showClearButton?: boolean;
 		inputPlaceholder?: string;
 		clearButtonText?: string;
+		enableSessionPersistence?: boolean; // Nouvelle prop pour activer/désactiver la persistance
 		// Custom snippets for avatars
 		botAvatar?: Snippet;
 		userAvatar?: Snippet;
@@ -25,10 +26,18 @@
 		showClearButton = false,
 		inputPlaceholder,
 		clearButtonText,
+		enableSessionPersistence = true, // Activé par défaut pour la version styled
 		botAvatar,
 		userAvatar,
 		headerAvatar,
 	}: Props = $props();
+
+	// Merge options with session persistence enabled by default
+	const mergedOptions: ChatOptions = $derived({
+		...options,
+		// Active automatiquement loadPreviousSession si enableSessionPersistence est true
+		loadPreviousSession: enableSessionPersistence ? true : (options.loadPreviousSession ?? false),
+	});
 
 	// Get i18n messages from options
 	const lang = options.defaultLanguage || 'en';
@@ -42,7 +51,7 @@
 </script>
 
 <div class="ai-chat-container" data-theme={theme}>
-	<HeadlessChat {options}>
+	<HeadlessChat options={mergedOptions}>
 		{#snippet children(store)}
 			<HeadlessLayout>
 				{#snippet renderHeader()}

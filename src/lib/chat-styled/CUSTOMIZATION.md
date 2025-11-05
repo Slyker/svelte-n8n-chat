@@ -4,6 +4,7 @@ Le composant `AIChat` offre une personnalisation complète via des **variables C
 
 ## 📝 Table des matières
 
+- [Gestion automatique des sessions](#gestion-automatique-des-sessions)
 - [Variables CSS (Style Props)](#variables-css-style-props)
   - [Couleurs](#couleurs)
   - [Espacement et Layout](#espacement-et-layout)
@@ -11,6 +12,52 @@ Le composant `AIChat` offre une personnalisation complète via des **variables C
 - [Snippets](#snippets)
   - [Avatars](#avatars)
 - [Exemples](#exemples)
+
+---
+
+## Gestion automatique des sessions
+
+Le composant `AIChat` gère **automatiquement** la persistance des sessions par défaut, sans aucune configuration nécessaire.
+
+### ✅ Ce qui est géré automatiquement
+
+- **Génération d'ID de session** : Un UUID unique est créé automatiquement
+- **Sauvegarde dans localStorage** : L'ID de session est persisté sous la clé `n8n-chat-session-id`
+- **Rechargement des messages** : Au retour de l'utilisateur, les messages précédents sont rechargés depuis le serveur
+- **Bouton Clear** : Crée une nouvelle session et efface l'historique local
+
+### 🎯 Utilisation
+
+**Mode par défaut (avec persistance) :**
+```svelte
+<AIChat {options} />
+```
+
+**Mode sans persistance (session temporaire) :**
+```svelte
+<AIChat {options} enableSessionPersistence={false} />
+```
+
+### 🔧 Bouton Clear
+
+Pour afficher le bouton de suppression de l'historique :
+
+```svelte
+<AIChat {options} showClearButton={true} />
+```
+
+Lorsque l'utilisateur clique sur "Clear" :
+1. Tous les messages sont effacés
+2. Un nouvel ID de session est généré
+3. L'ancien historique reste sur le serveur mais n'est plus accessible
+4. Une nouvelle conversation démarre
+
+### 💡 Avantages
+
+- **Zero configuration** : Fonctionne immédiatement sans setup
+- **Expérience utilisateur fluide** : Les conversations persistent entre les visites
+- **Contrôle total** : Possibilité de désactiver via `enableSessionPersistence={false}`
+- **Respect de la vie privée** : Le bouton Clear permet de tout effacer facilement
 
 ---
 
