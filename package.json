@@ -1,6 +1,6 @@
 {
 	"name": "svelte-n8n-chat",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Production-ready AI chat components for Svelte 5 - Styled and headless implementations with streaming, i18n, and session management",
 	"author": "Slyker",
 	"license": "MIT",
