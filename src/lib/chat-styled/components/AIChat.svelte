@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { HeadlessChat, HeadlessLayout, HeadlessMessagesList, HeadlessInput } from '../../chat-headless/index.js';
+	import { HeadlessChat, HeadlessLayout, HeadlessMessagesList, HeadlessInput, MarkdownMessage } from '../../chat-headless/index.js';
 	import type { ChatOptions, ChatMessage, ChatStore } from '../../chat-headless/index.js';
 
 	interface Props {
@@ -99,7 +99,7 @@
 									
 									<div class="message-content">
 										<div class="message-bubble {message.sender}">
-											<p>{message.text}</p>
+											<MarkdownMessage content={message.text} />
 											{#if message.files && message.files.length > 0}
 												<div class="message-files">
 													{#each message.files as file}

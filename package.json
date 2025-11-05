@@ -62,6 +62,8 @@
 		"svelte": "^5.0.0"
 	},
 	"dependencies": {
+		"isomorphic-dompurify": "^2.31.0",
+		"marked": "^16.4.1",
 		"uuid": "^10.0.0"
 	},
 	"devDependencies": {
@@ -74,6 +76,8 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.14",
+		"@types/dompurify": "^3.0.5",
+		"@types/marked": "^5.0.2",
 		"@types/node": "^22",
 		"@types/uuid": "^10.0.0",
 		"@vitest/browser": "^3.2.4",
@@ -81,6 +85,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",
 		"globals": "^16.4.0",
+		"mdsvex": "^0.12.6",
 		"playwright": "^1.56.1",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",

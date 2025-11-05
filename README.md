@@ -11,6 +11,7 @@ A powerful, production-ready AI chat component library for Svelte 5, featuring b
 ### 🚀 Core Capabilities
 - ✅ **Real-time Streaming** - WebSocket-based streaming responses
 - ✅ **Session Persistence** - Automatic localStorage-based session management
+- ✅ **Markdown Rendering** - Built-in markdown support with syntax highlighting
 - ✅ **File Upload** - Built-in file attachment support
 - ✅ **Internationalization** - Multi-language support with easy customization
 - ✅ **TypeScript First** - Full type safety and IntelliSense
@@ -536,6 +537,65 @@ interface I18nMessages {
   inputPlaceholder="Custom placeholder text"
   clearButtonText="Reset"
 />
+```
+
+## 📝 Markdown Support
+
+All messages support full Markdown formatting out of the box:
+
+### Supported Markdown Features
+
+- **Bold text**: `**bold**` → **bold**
+- *Italic text*: `*italic*` → *italic*
+- `Inline code`: `` `code` `` → `code`
+- Code blocks with syntax highlighting
+- Links: `[text](url)`
+- Lists (ordered and unordered)
+- Blockquotes
+- Tables
+- Headers (H1-H6)
+- Images
+- Horizontal rules
+
+### Usage Example
+
+```svelte
+<script>
+  import { AIChat } from 'svelte-n8n-chat';
+  
+  const options = {
+    webhookUrl: 'https://your-n8n.com/webhook/chat',
+    initialMessages: [
+      '**Welcome!** I can format text with *markdown*',
+      'Here\'s some `inline code` and a [link](https://n8n.io)',
+      '```javascript\nconst greeting = "Hello World";\n```'
+    ]
+  };
+</script>
+
+<AIChat {options} />
+```
+
+### Custom Markdown Rendering
+
+For headless implementations, use the `MarkdownMessage` component:
+
+```svelte
+<script>
+  import { HeadlessChat, HeadlessMessagesList, MarkdownMessage } from 'svelte-n8n-chat';
+</script>
+
+<HeadlessChat {options}>
+  {#snippet children(chatStore)}
+    <HeadlessMessagesList>
+      {#snippet renderMessage(message)}
+        <div class="my-message">
+          <MarkdownMessage content={message.text} />
+        </div>
+      {/snippet}
+    </HeadlessMessagesList>
+  {/snippet}
+</HeadlessChat>
 ```
 
 ## 🎨 Theming & Styling

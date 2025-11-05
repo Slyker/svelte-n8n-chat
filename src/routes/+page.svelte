@@ -10,7 +10,11 @@
 	// Example configuration - replace with your actual n8n webhook URL
 	const chatOptions = $derived<ChatOptions>({
 		webhookUrl,
-		initialMessages: ['Hello! 👋', 'How can I help you today?'],
+		initialMessages: [
+			'Hello! 👋', 
+			'How can I help you today?',
+			'I support **markdown** formatting:\n- *Italic text*\n- **Bold text**\n- `Code blocks`\n- [Links](https://n8n.io)'
+		],
 		enableStreaming,
 		loadPreviousSession: true,
 		showWelcomeScreen: false,
