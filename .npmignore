@@ -1,0 +1,44 @@
+# Source files (only dist should be published)
+src/
+!src/lib/
+
+# Build and config files
+.svelte-kit/
+node_modules/
+.vscode/
+.idea/
+*.log
+
+# Development files
+.prettierrc
+.prettierignore
+.eslintrc
+eslint.config.js
+svelte.config.js
+vite.config.ts
+vitest-setup-client.ts
+tsconfig.json
+
+# Documentation (except README and LICENSE)
+EXTRACTION_SUMMARY.md
+CONTRIBUTING.md
+
+# Git files
+.git/
+.gitignore
+
+# Testing
+**/*.test.*
+**/*.spec.*
+demo.spec.ts
+page.svelte.spec.ts
+coverage/
+
+# Demo routes
+src/routes/
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
