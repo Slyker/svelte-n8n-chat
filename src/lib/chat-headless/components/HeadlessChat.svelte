@@ -21,8 +21,12 @@
 	// Provide the store to child components via context
 	setContext('chatStore', chatStore);
 
-	// Initialize session
+	// Initialize session (run once on mount)
+	let initialized = false;
 	$effect(() => {
+		if (initialized) return;
+		initialized = true;
+		
 		(async () => {
 			if (options.loadPreviousSession) {
 				await chatStore.loadPreviousSession();

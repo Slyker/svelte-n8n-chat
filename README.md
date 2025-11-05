@@ -21,11 +21,11 @@ A powerful, production-ready AI chat component library for Svelte 5, featuring b
 ## 📦 Installation
 
 ```bash
-npm install @n8n/chat-svelte
+npm install svelte-n8n-chat
 # or
-pnpm add @n8n/chat-svelte
+pnpm add svelte-n8n-chat
 # or
-yarn add @n8n/chat-svelte
+yarn add svelte-n8n-chat
 ```
 
 ## 🎯 Quick Start
@@ -36,7 +36,7 @@ Get a working chat interface in under 1 minute:
 
 ```svelte
 <script>
-  import { AIChat } from '@n8n/chat-svelte';
+  import { AIChat } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'https://your-n8n.com/webhook/chat',
@@ -65,7 +65,7 @@ Build your own UI with complete styling freedom:
     HeadlessChat, 
     HeadlessMessagesList, 
     HeadlessInput 
-  } from '@n8n/chat-svelte';
+  } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'https://your-n8n.com/webhook/chat',
@@ -168,7 +168,7 @@ interface ChatOptions {
 **Basic Usage:**
 ```svelte
 <script>
-  import { AIChat } from '@n8n/chat-svelte';
+  import { AIChat } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'https://your-n8n.com/webhook/abc123/chat'
@@ -181,7 +181,7 @@ interface ChatOptions {
 **With All Options:**
 ```svelte
 <script>
-  import { AIChat } from '@n8n/chat-svelte';
+  import { AIChat } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'https://your-n8n.com/webhook/abc123/chat',
@@ -460,7 +460,7 @@ interface I18nMessages {
 
 ```svelte
 <script>
-  import { AIChat } from '@n8n/chat-svelte';
+  import { AIChat } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'https://your-n8n.com/webhook/chat',
@@ -501,7 +501,7 @@ interface I18nMessages {
 
 ```svelte
 <script>
-  import { AIChat } from '@n8n/chat-svelte';
+  import { AIChat } from 'svelte-n8n-chat';
   
   let currentLanguage = $state('en');
   
@@ -602,7 +602,7 @@ Customize colors and spacing via CSS variables:
 
 ```svelte
 <script>
-  import { HeadlessChat } from '@n8n/chat-svelte';
+  import { HeadlessChat } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'https://your-n8n.com/webhook/chat',
@@ -715,7 +715,7 @@ Enable real-time streaming for a ChatGPT-like experience:
 
 ```svelte
 <script>
-  import { AIChat } from '@n8n/chat-svelte';
+  import { AIChat } from 'svelte-n8n-chat';
   
   const options = {
     webhookUrl: 'YOUR_WEBHOOK_URL_HERE',
@@ -737,7 +737,7 @@ import type {
   ChatStore,
   I18nMessages,
   SendMessageResponse,
-} from '@n8n/chat-svelte';
+} from 'svelte-n8n-chat';
 ```
 
 ## 🧪 Development
