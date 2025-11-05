@@ -22,7 +22,7 @@
 	setContext('chatStore', chatStore);
 
 	// Initialize session (run once on mount)
-	let initialized = false;
+	let initialized = $state(false);
 	$effect(() => {
 		if (initialized) return;
 		initialized = true;
