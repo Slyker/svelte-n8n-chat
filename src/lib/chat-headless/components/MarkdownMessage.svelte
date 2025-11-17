@@ -1,3 +1,12 @@
+<script lang="ts" module>
+	import { marked as configuredMarked } from 'marked';
+
+	configuredMarked.setOptions({
+		breaks: true,
+		gfm: true,
+	});
+</script>
+
 <script lang="ts">
 	import { marked } from 'marked';
 	import DOMPurify from 'isomorphic-dompurify';
@@ -8,20 +17,11 @@
 
 	let { content }: Props = $props();
 
-	// Configure marked for better rendering
-	marked.setOptions({
-		breaks: true, // Convert \n to <br>
-		gfm: true, // GitHub Flavored Markdown
-	});
-
-	// Render markdown and sanitize HTML
 	const html = $derived(() => {
 		const rendered = marked.parse(content);
-		// Ensure rendered is a string before sanitizing
 		if (typeof rendered === 'string') {
 			return DOMPurify.sanitize(rendered);
 		}
-		// If it's a promise (shouldn't happen with sync parse), return empty
 		return '';
 	});
 </script>

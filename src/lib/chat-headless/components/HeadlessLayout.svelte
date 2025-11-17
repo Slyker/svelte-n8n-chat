@@ -14,35 +14,44 @@
 	let messagesEndMarker: HTMLDivElement | undefined = $state();
 	let shouldAutoScroll = $state(true);
 
-	// Track if user is manually scrolling
-	function handleScroll(event: Event) {
+	function handleScroll() {
 		if (!chatBody) return;
-		
+
 		const { scrollTop, scrollHeight, clientHeight } = chatBody;
 		const isAtBottom = scrollHeight - scrollTop - clientHeight < 50;
 		shouldAutoScroll = isAtBottom;
 	}
 
-	// Svelte action for auto-scrolling
 	function autoScrollAction(node: HTMLElement) {
 		if (!enableAutoScroll) return {};
 
+		let rafId: number | null = null;
+
 		const observer = new MutationObserver(() => {
-			if (shouldAutoScroll && messagesEndMarker) {
-				messagesEndMarker.scrollIntoView({ behavior: 'smooth', block: 'end' });
+			if (!shouldAutoScroll || !messagesEndMarker || rafId !== null) {
+				return;
 			}
+
+			rafId = requestAnimationFrame(() => {
+				rafId = null;
+				messagesEndMarker?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+			});
 		});
 
 		observer.observe(node, {
 			childList: true,
 			subtree: true,
-			characterData: true
+			characterData: true,
 		});
 
 		return {
 			destroy() {
+				if (rafId !== null) {
+					cancelAnimationFrame(rafId);
+					rafId = null;
+				}
 				observer.disconnect();
-			}
+			},
 		};
 	}
 </script>
@@ -71,7 +80,6 @@
 </div>
 
 <style>
-	/* Minimal structural styles - user controls all styling via CSS */
 	.chat-layout {
 		display: flex;
 		flex-direction: column;

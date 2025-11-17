@@ -11,10 +11,9 @@ export async function authenticatedFetch<T>(...args: Parameters<typeof fetch>): 
 		...args[1]?.headers,
 	};
 
-	// Automatically set content type to application/json if body is FormData
 	if (body instanceof FormData) {
 		delete headers['Content-Type'];
-	} else {
+	} else if (body !== undefined) {
 		headers['Content-Type'] = 'application/json';
 	}
 	const response = await fetch(args[0], {
@@ -24,15 +23,13 @@ export async function authenticatedFetch<T>(...args: Parameters<typeof fetch>): 
 		headers,
 	});
 
-	let responseData;
+	const rawPayload = await response.text();
 
 	try {
-		responseData = await response.clone().json();
-	} catch (error) {
-		responseData = await response.text();
+		return rawPayload ? (JSON.parse(rawPayload) as T) : ('' as T);
+	} catch {
+		return rawPayload as T;
 	}
-
-	return responseData as T;
 }
 
 export async function get<T>(url: string, query: object = {}, options: RequestInit = {}) {

@@ -15,30 +15,27 @@
 
 	let { options, children }: Props = $props();
 
-	// Create the chat store
 	const chatStore = createChatStore(options);
-
-	// Provide the store to child components via context
 	setContext('chatStore', chatStore);
 
-	// Initialize session (run once on mount)
 	let initialized = $state(false);
+
+	async function initializeSession() {
+		if (options.loadPreviousSession) {
+			await chatStore.loadPreviousSession();
+		} else {
+			chatStore.setLoadingSession(false);
+		}
+
+		if (!options.showWelcomeScreen && !chatStore.currentSessionId) {
+			await chatStore.startNewSession();
+		}
+	}
+
 	$effect(() => {
 		if (initialized) return;
 		initialized = true;
-		
-		(async () => {
-			if (options.loadPreviousSession) {
-				await chatStore.loadPreviousSession();
-			} else {
-				// If not loading previous session, ensure isLoadingSession is false
-				chatStore.setLoadingSession(false);
-			}
-			
-			if (!options.showWelcomeScreen && !chatStore.currentSessionId) {
-				await chatStore.startNewSession();
-			}
-		})();
+		void initializeSession();
 	});
 </script>
 

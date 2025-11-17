@@ -22,7 +22,6 @@ export async function sendMessage(
 	sessionId: string,
 	options: ChatOptions,
 ): Promise<SendMessageResponse> {
-	// Use streaming endpoint but collect all chunks
 	const response = await (files.length > 0
 		? sendWithFiles(message, files, sessionId, options)
 		: sendTextOnly(message, sessionId, options));
@@ -34,7 +33,6 @@ export async function sendMessage(
 
 	const responseText = await response.text();
 	
-	// Parse NDJSON response
 	const lines = responseText.split('\n').filter(line => line.trim());
 	let combinedText = '';
 	
@@ -45,7 +43,6 @@ export async function sendMessage(
 				combinedText += chunk.content;
 			}
 		} catch (error) {
-			// If parsing fails, it might be a regular JSON response
 			console.warn('Failed to parse NDJSON line:', line);
 		}
 	}
@@ -57,7 +54,6 @@ export async function sendMessage(
 	} as SendMessageResponse;
 }
 
-// Create a transform stream that parses newline-delimited JSON
 function createLineParser(): TransformStream<Uint8Array, StructuredChunk> {
 	let buffer = '';
 	const decoder = new TextDecoder();
@@ -66,9 +62,8 @@ function createLineParser(): TransformStream<Uint8Array, StructuredChunk> {
 		transform(chunk, controller) {
 			buffer += decoder.decode(chunk, { stream: true });
 
-			// Process all complete lines in the buffer
 			const lines = buffer.split('\n');
-			buffer = lines.pop() ?? ''; // Keep incomplete line in buffer
+			buffer = lines.pop() ?? '';
 
 			for (const line of lines) {
 				if (line.trim()) {
@@ -76,7 +71,6 @@ function createLineParser(): TransformStream<Uint8Array, StructuredChunk> {
 						const parsed = JSON.parse(line) as StructuredChunk;
 						controller.enqueue(parsed);
 					} catch (error) {
-						// Handle non-JSON lines as plain text
 						controller.enqueue({
 							type: 'item',
 							content: line,
@@ -87,7 +81,6 @@ function createLineParser(): TransformStream<Uint8Array, StructuredChunk> {
 		},
 
 		flush(controller) {
-			// Process any remaining buffer content
 			if (buffer.trim()) {
 				try {
 					const parsed = JSON.parse(buffer) as StructuredChunk;
@@ -116,7 +109,6 @@ export async function sendMessageStreaming(
 	options: ChatOptions,
 	handlers: StreamingEventHandlers,
 ): Promise<{ hasReceivedChunks: boolean }> {
-	// Build request
 	const response = await (files.length > 0
 		? sendWithFiles(message, files, sessionId, options)
 		: sendTextOnly(message, sessionId, options));
@@ -131,7 +123,6 @@ export async function sendMessageStreaming(
 		throw new Error('Response body is not readable');
 	}
 
-	// Process the stream
 	const reader = response.body.pipeThrough(createLineParser()).getReader();
 	let hasReceivedChunks = false;
 
@@ -168,7 +159,6 @@ export async function sendMessageStreaming(
 	return { hasReceivedChunks };
 }
 
-// Helper function for file uploads
 async function sendWithFiles(
 	message: string,
 	files: File[],
@@ -198,7 +188,6 @@ async function sendWithFiles(
 	});
 }
 
-// Helper function for text-only messages
 async function sendTextOnly(
 	message: string,
 	sessionId: string,

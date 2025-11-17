@@ -17,24 +17,49 @@
 
 	const chatStore = getContext<ChatStore>('chatStore');
 
-	// Combine initial messages with chat messages
-	const allMessages = $derived([...chatStore.initialMessages, ...chatStore.messages]);
-	
-	// Show typing indicator only if waiting AND last message is not a bot message (streaming)
-	const showTypingIndicator = $derived(
-		chatStore.waitingForResponse && 
-		(allMessages.length === 0 || allMessages[allMessages.length - 1].sender !== 'bot')
+	const hasMessages = $derived(
+		chatStore.initialMessages.length > 0 || chatStore.messages.length > 0
 	);
+
+	const showTypingIndicator = $derived((() => {
+		if (!chatStore.waitingForResponse) {
+			return false;
+		}
+
+		const streamedMessages = chatStore.messages;
+		if (streamedMessages.length > 0) {
+			return streamedMessages.at(-1)?.sender !== 'bot';
+		}
+
+		const seededMessages = chatStore.initialMessages;
+		if (seededMessages.length > 0) {
+			return seededMessages.at(-1)?.sender !== 'bot';
+		}
+
+		return true;
+	})());
 </script>
 
-{#if allMessages.length === 0}
+{#if !hasMessages}
 	{#if renderEmpty}
 		{@render renderEmpty()}
 	{:else}
 		<div>No messages yet</div>
 	{/if}
 {:else}
-	{#each allMessages as message (message.id)}
+	{#if chatStore.initialMessages.length > 0}
+		{#each chatStore.initialMessages as message (message.id)}
+			{#if renderMessage}
+				{@render renderMessage(message)}
+			{:else}
+				<div>
+					<strong>{message.sender}:</strong> {message.text}
+				</div>
+			{/if}
+		{/each}
+	{/if}
+
+	{#each chatStore.messages as message (message.id)}
 		{#if renderMessage}
 			{@render renderMessage(message)}
 		{:else}
