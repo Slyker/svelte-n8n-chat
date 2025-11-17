@@ -21,23 +21,13 @@
 		chatStore.initialMessages.length > 0 || chatStore.messages.length > 0
 	);
 
-	const showTypingIndicator = $derived((() => {
+	const showTypingIndicator = $derived(() => {
 		if (!chatStore.waitingForResponse) {
 			return false;
 		}
-
-		const streamedMessages = chatStore.messages;
-		if (streamedMessages.length > 0) {
-			return streamedMessages.at(-1)?.sender !== 'bot';
-		}
-
-		const seededMessages = chatStore.initialMessages;
-		if (seededMessages.length > 0) {
-			return seededMessages.at(-1)?.sender !== 'bot';
-		}
-
-		return true;
-	})());
+		const allMessages = [...chatStore.initialMessages, ...chatStore.messages];
+		return allMessages.length === 0 || allMessages[allMessages.length - 1].sender !== 'bot';
+	});
 </script>
 
 {#if !hasMessages}
