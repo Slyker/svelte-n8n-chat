@@ -35,7 +35,7 @@
 	$effect(() => {
 		if (initialized) return;
 		initialized = true;
-		void initializeSession();
+		initializeSession().catch(console.error);
 	});
 </script>
 
